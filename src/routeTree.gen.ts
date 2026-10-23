@@ -16,6 +16,9 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/_app'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedAppCreateRouteImport } from './routes/_authenticated/_app.create'
+import { Route as AuthenticatedAppHistoryRouteImport } from './routes/_authenticated/_app.history'
+import { Route as AuthenticatedAppSavedRouteImport } from './routes/_authenticated/_app.saved'
+import { Route as AuthenticatedAppGenerationsIdRouteImport } from './routes/_authenticated/_app.generations.$id'
 import { Route as AuthenticatedAppStylesIndexRouteImport } from './routes/_authenticated/_app.styles.index'
 import { Route as AuthenticatedAppStylesIdRouteImport } from './routes/_authenticated/_app.styles.$id'
 import { Route as AuthenticatedAppStylesNewRouteImport } from './routes/_authenticated/_app.styles.new'
@@ -53,6 +56,22 @@ const AuthenticatedAppCreateRoute = AuthenticatedAppCreateRouteImport.update({
   path: '/create',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedAppHistoryRoute = AuthenticatedAppHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
+const AuthenticatedAppSavedRoute = AuthenticatedAppSavedRouteImport.update({
+  id: '/saved',
+  path: '/saved',
+  getParentRoute: () => AuthenticatedAppRoute,
+} as any)
+const AuthenticatedAppGenerationsIdRoute =
+  AuthenticatedAppGenerationsIdRouteImport.update({
+    id: '/generations/$id',
+    path: '/generations/$id',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppStylesIndexRoute =
   AuthenticatedAppStylesIndexRouteImport.update({
     id: '/styles/',
@@ -78,6 +97,9 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/create': typeof AuthenticatedAppCreateRoute
+  '/history': typeof AuthenticatedAppHistoryRoute
+  '/saved': typeof AuthenticatedAppSavedRoute
+  '/generations/$id': typeof AuthenticatedAppGenerationsIdRoute
   '/styles/$id': typeof AuthenticatedAppStylesIdRoute
   '/styles/new': typeof AuthenticatedAppStylesNewRoute
   '/styles/': typeof AuthenticatedAppStylesIndexRoute
@@ -88,6 +110,9 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/create': typeof AuthenticatedAppCreateRoute
+  '/history': typeof AuthenticatedAppHistoryRoute
+  '/saved': typeof AuthenticatedAppSavedRoute
+  '/generations/$id': typeof AuthenticatedAppGenerationsIdRoute
   '/styles/$id': typeof AuthenticatedAppStylesIdRoute
   '/styles/new': typeof AuthenticatedAppStylesNewRoute
   '/styles': typeof AuthenticatedAppStylesIndexRoute
@@ -101,6 +126,9 @@ export interface FileRoutesById {
   '/_authenticated/_app': typeof AuthenticatedAppRouteWithChildren
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/_app/create': typeof AuthenticatedAppCreateRoute
+  '/_authenticated/_app/history': typeof AuthenticatedAppHistoryRoute
+  '/_authenticated/_app/saved': typeof AuthenticatedAppSavedRoute
+  '/_authenticated/_app/generations/$id': typeof AuthenticatedAppGenerationsIdRoute
   '/_authenticated/_app/styles/$id': typeof AuthenticatedAppStylesIdRoute
   '/_authenticated/_app/styles/new': typeof AuthenticatedAppStylesNewRoute
   '/_authenticated/_app/styles/': typeof AuthenticatedAppStylesIndexRoute
@@ -113,6 +141,9 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/onboarding'
     | '/create'
+    | '/history'
+    | '/saved'
+    | '/generations/$id'
     | '/styles/$id'
     | '/styles/new'
     | '/styles/'
@@ -123,6 +154,9 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/onboarding'
     | '/create'
+    | '/history'
+    | '/saved'
+    | '/generations/$id'
     | '/styles/$id'
     | '/styles/new'
     | '/styles'
@@ -135,6 +169,9 @@ export interface FileRouteTypes {
     | '/_authenticated/_app'
     | '/_authenticated/onboarding'
     | '/_authenticated/_app/create'
+    | '/_authenticated/_app/history'
+    | '/_authenticated/_app/saved'
+    | '/_authenticated/_app/generations/$id'
     | '/_authenticated/_app/styles/$id'
     | '/_authenticated/_app/styles/new'
     | '/_authenticated/_app/styles/'
@@ -198,6 +235,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppCreateRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/_app/history': {
+      id: '/_authenticated/_app/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof AuthenticatedAppHistoryRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/_app/saved': {
+      id: '/_authenticated/_app/saved'
+      path: '/saved'
+      fullPath: '/saved'
+      preLoaderRoute: typeof AuthenticatedAppSavedRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/_app/generations/$id': {
+      id: '/_authenticated/_app/generations/$id'
+      path: '/generations/$id'
+      fullPath: '/generations/$id'
+      preLoaderRoute: typeof AuthenticatedAppGenerationsIdRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/_app/styles/': {
       id: '/_authenticated/_app/styles/'
       path: '/styles'
@@ -224,6 +282,9 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAppRouteChildren {
   AuthenticatedAppCreateRoute: typeof AuthenticatedAppCreateRoute
+  AuthenticatedAppHistoryRoute: typeof AuthenticatedAppHistoryRoute
+  AuthenticatedAppSavedRoute: typeof AuthenticatedAppSavedRoute
+  AuthenticatedAppGenerationsIdRoute: typeof AuthenticatedAppGenerationsIdRoute
   AuthenticatedAppStylesIdRoute: typeof AuthenticatedAppStylesIdRoute
   AuthenticatedAppStylesNewRoute: typeof AuthenticatedAppStylesNewRoute
   AuthenticatedAppStylesIndexRoute: typeof AuthenticatedAppStylesIndexRoute
@@ -231,6 +292,9 @@ interface AuthenticatedAppRouteChildren {
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppCreateRoute: AuthenticatedAppCreateRoute,
+  AuthenticatedAppHistoryRoute: AuthenticatedAppHistoryRoute,
+  AuthenticatedAppSavedRoute: AuthenticatedAppSavedRoute,
+  AuthenticatedAppGenerationsIdRoute: AuthenticatedAppGenerationsIdRoute,
   AuthenticatedAppStylesIdRoute: AuthenticatedAppStylesIdRoute,
   AuthenticatedAppStylesNewRoute: AuthenticatedAppStylesNewRoute,
   AuthenticatedAppStylesIndexRoute: AuthenticatedAppStylesIndexRoute,
