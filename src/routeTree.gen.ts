@@ -16,6 +16,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/_app'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedAppStylesIndexRouteImport } from './routes/_authenticated/_app.styles.index'
+import { Route as AuthenticatedAppStylesIdRouteImport } from './routes/_authenticated/_app.styles.$id'
 import { Route as AuthenticatedAppStylesNewRouteImport } from './routes/_authenticated/_app.styles.new'
 
 const IndexRoute = IndexRouteImport.update({
@@ -52,6 +53,12 @@ const AuthenticatedAppStylesIndexRoute =
     path: '/styles/',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppStylesIdRoute =
+  AuthenticatedAppStylesIdRouteImport.update({
+    id: '/styles/$id',
+    path: '/styles/$id',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppStylesNewRoute =
   AuthenticatedAppStylesNewRouteImport.update({
     id: '/styles/new',
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/styles/$id': typeof AuthenticatedAppStylesIdRoute
   '/styles/new': typeof AuthenticatedAppStylesNewRoute
   '/styles/': typeof AuthenticatedAppStylesIndexRoute
 }
@@ -72,6 +80,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/styles/$id': typeof AuthenticatedAppStylesIdRoute
   '/styles/new': typeof AuthenticatedAppStylesNewRoute
   '/styles': typeof AuthenticatedAppStylesIndexRoute
 }
@@ -83,6 +92,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/_app': typeof AuthenticatedAppRouteWithChildren
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
+  '/_authenticated/_app/styles/$id': typeof AuthenticatedAppStylesIdRoute
   '/_authenticated/_app/styles/new': typeof AuthenticatedAppStylesNewRoute
   '/_authenticated/_app/styles/': typeof AuthenticatedAppStylesIndexRoute
 }
@@ -93,6 +103,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/onboarding'
+    | '/styles/$id'
     | '/styles/new'
     | '/styles/'
   fileRoutesByTo: FileRoutesByTo
@@ -101,6 +112,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/onboarding'
+    | '/styles/$id'
     | '/styles/new'
     | '/styles'
   id:
@@ -111,6 +123,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/_authenticated/_app'
     | '/_authenticated/onboarding'
+    | '/_authenticated/_app/styles/$id'
     | '/_authenticated/_app/styles/new'
     | '/_authenticated/_app/styles/'
   fileRoutesById: FileRoutesById
@@ -173,6 +186,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppStylesIndexRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/_app/styles/$id': {
+      id: '/_authenticated/_app/styles/$id'
+      path: '/styles/$id'
+      fullPath: '/styles/$id'
+      preLoaderRoute: typeof AuthenticatedAppStylesIdRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/_app/styles/new': {
       id: '/_authenticated/_app/styles/new'
       path: '/styles/new'
@@ -184,11 +204,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAppRouteChildren {
+  AuthenticatedAppStylesIdRoute: typeof AuthenticatedAppStylesIdRoute
   AuthenticatedAppStylesNewRoute: typeof AuthenticatedAppStylesNewRoute
   AuthenticatedAppStylesIndexRoute: typeof AuthenticatedAppStylesIndexRoute
 }
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
+  AuthenticatedAppStylesIdRoute: AuthenticatedAppStylesIdRoute,
   AuthenticatedAppStylesNewRoute: AuthenticatedAppStylesNewRoute,
   AuthenticatedAppStylesIndexRoute: AuthenticatedAppStylesIndexRoute,
 }
