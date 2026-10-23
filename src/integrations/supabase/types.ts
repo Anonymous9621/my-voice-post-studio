@@ -14,7 +14,235 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      generations: {
+        Row: {
+          clarifying_questions: Json
+          created_at: string
+          id: string
+          image_notes: string | null
+          image_path: string | null
+          inputs: Json
+          mode: string
+          model: string | null
+          style_profile_id: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          clarifying_questions?: Json
+          created_at?: string
+          id?: string
+          image_notes?: string | null
+          image_path?: string | null
+          inputs?: Json
+          mode: string
+          model?: string | null
+          style_profile_id?: string | null
+          title?: string
+          user_id?: string
+        }
+        Update: {
+          clarifying_questions?: Json
+          created_at?: string
+          id?: string
+          image_notes?: string | null
+          image_path?: string | null
+          inputs?: Json
+          mode?: string
+          model?: string | null
+          style_profile_id?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "generations_style_profile_id_fkey"
+            columns: ["style_profile_id"]
+            isOneToOne: false
+            referencedRelation: "style_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      posts: {
+        Row: {
+          caption: string
+          created_at: string
+          cta: string
+          generation_id: string
+          hook: string
+          id: string
+          is_saved: boolean
+          position: number
+          updated_at: string
+          user_id: string
+          visual_direction: string
+        }
+        Insert: {
+          caption?: string
+          created_at?: string
+          cta?: string
+          generation_id: string
+          hook?: string
+          id?: string
+          is_saved?: boolean
+          position?: number
+          updated_at?: string
+          user_id?: string
+          visual_direction?: string
+        }
+        Update: {
+          caption?: string
+          created_at?: string
+          cta?: string
+          generation_id?: string
+          hook?: string
+          id?: string
+          is_saved?: boolean
+          position?: number
+          updated_at?: string
+          user_id?: string
+          visual_direction?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "posts_generation_id_fkey"
+            columns: ["generation_id"]
+            isOneToOne: false
+            referencedRelation: "generations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          business_name: string | null
+          business_type: string | null
+          created_at: string
+          default_language: string
+          display_name: string | null
+          id: string
+          onboarding_completed: boolean
+          ui_language: string
+          updated_at: string
+        }
+        Insert: {
+          business_name?: string | null
+          business_type?: string | null
+          created_at?: string
+          default_language?: string
+          display_name?: string | null
+          id: string
+          onboarding_completed?: boolean
+          ui_language?: string
+          updated_at?: string
+        }
+        Update: {
+          business_name?: string | null
+          business_type?: string | null
+          created_at?: string
+          default_language?: string
+          display_name?: string | null
+          id?: string
+          onboarding_completed?: boolean
+          ui_language?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      style_profiles: {
+        Row: {
+          analysis: Json
+          created_at: string
+          id: string
+          is_default: boolean
+          language: string | null
+          name: string
+          sample_posts: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          analysis?: Json
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          language?: string | null
+          name: string
+          sample_posts?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          analysis?: Json
+          created_at?: string
+          id?: string
+          is_default?: boolean
+          language?: string | null
+          name?: string
+          sample_posts?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          created_at: string
+          current_period_end: string | null
+          plan: string
+          provider: string | null
+          provider_customer_id: string | null
+          provider_subscription_id: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_period_end?: string | null
+          plan?: string
+          provider?: string | null
+          provider_customer_id?: string | null
+          provider_subscription_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_period_end?: string | null
+          plan?: string
+          provider?: string | null
+          provider_customer_id?: string | null
+          provider_subscription_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      usage_events: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
