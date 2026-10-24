@@ -27,7 +27,9 @@ function insightsToNotes(i: ImageInsights) {
   const lines = [
     i.product_type && `Product: ${i.product_type}`,
     i.summary,
-    i.visible_details.length ? `Visible: ${i.visible_details.join("; ")}` : "",
+    i.visible_details.length
+      ? `Visible:\n${i.visible_details.map((d) => `- ${d.replace(/\.$/, "")}`).join("\n")}`
+      : "",
     i.visible_text.length ? `Text on product: ${i.visible_text.join(" / ")}` : "",
   ];
   return lines.filter(Boolean).join("\n");
@@ -73,7 +75,7 @@ export function ImageUpload({
     if (!TYPES.includes(file.type)) return setError("Use a JPG, PNG or WebP image.");
     if (file.size > MAX_BYTES) return setError("Images must be 8 MB or smaller.");
     setStatus("uploading");
-    const ext = file.type.split("/")[1].replace("jpeg", "jpg");
+    const ext = (file.type.split("/")[1] ?? "jpg").replace("jpeg", "jpg");
     const path = `${userId}/${crypto.randomUUID()}.${ext}`;
     const { error: upErr } = await supabase.storage
       .from("product-images")

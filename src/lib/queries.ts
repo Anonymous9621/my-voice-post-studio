@@ -7,9 +7,16 @@ import { getAiStatus } from "./ai.functions";
 import { toAnalysis } from "./content-types";
 import { GENERATION_USAGE_KINDS, getPlan, usagePeriodStart } from "./plans";
 
-function check<T>(res: { data: T; error: { message: string } | null }): T {
+type Res = { data: unknown; error: { message: string } | null };
+
+function check<R extends Res>(res: R): R["data"] {
   if (res.error) throw new Error(res.error.message);
   return res.data;
+}
+
+function checkList<R extends Res>(res: R): NonNullable<R["data"]> {
+  if (res.error) throw new Error(res.error.message);
+  return (res.data ?? []) as NonNullable<R["data"]>;
 }
 
 export const profileQuery = queryOptions({
@@ -26,7 +33,7 @@ export const aiStatusQuery = queryOptions({
 export const stylesQuery = queryOptions({
   queryKey: ["styles"],
   queryFn: async () => {
-    const rows = check(
+    const rows = checkList(
       await supabase
         .from("style_profiles")
         .select("id,name,analysis,language,is_default,created_at,updated_at")
@@ -50,7 +57,7 @@ export const generationsQuery = (limit = 50) =>
   queryOptions({
     queryKey: ["generations", { limit }],
     queryFn: async () =>
-      check(
+      checkList(
         await supabase
           .from("generations")
           .select("id,title,mode,created_at,style_profiles(name),posts(count)")
@@ -67,7 +74,7 @@ export const generationQuery = (id: string) =>
         await supabase.from("generations").select("*, style_profiles(id,name)").eq("id", id).maybeSingle(),
       );
       if (!gen) return null;
-      const posts = check(
+      const posts = checkList(
         await supabase.from("posts").select("*").eq("generation_id", id).order("position"),
       );
       let imageUrl: string | null = null;
@@ -84,7 +91,7 @@ export const generationQuery = (id: string) =>
 export const savedPostsQuery = queryOptions({
   queryKey: ["posts", "saved"],
   queryFn: async () =>
-    check(
+    checkList(
       await supabase
         .from("posts")
         .select("*, generations(id,title,mode)")

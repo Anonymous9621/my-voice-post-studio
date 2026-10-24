@@ -16,8 +16,10 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/_app'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedAppCreateRouteImport } from './routes/_authenticated/_app.create'
+import { Route as AuthenticatedAppDashboardRouteImport } from './routes/_authenticated/_app.dashboard'
 import { Route as AuthenticatedAppHistoryRouteImport } from './routes/_authenticated/_app.history'
 import { Route as AuthenticatedAppSavedRouteImport } from './routes/_authenticated/_app.saved'
+import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenticated/_app.settings'
 import { Route as AuthenticatedAppGenerationsIdRouteImport } from './routes/_authenticated/_app.generations.$id'
 import { Route as AuthenticatedAppStylesIndexRouteImport } from './routes/_authenticated/_app.styles.index'
 import { Route as AuthenticatedAppStylesIdRouteImport } from './routes/_authenticated/_app.styles.$id'
@@ -56,6 +58,12 @@ const AuthenticatedAppCreateRoute = AuthenticatedAppCreateRouteImport.update({
   path: '/create',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedAppDashboardRoute =
+  AuthenticatedAppDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppHistoryRoute = AuthenticatedAppHistoryRouteImport.update({
   id: '/history',
   path: '/history',
@@ -66,6 +74,12 @@ const AuthenticatedAppSavedRoute = AuthenticatedAppSavedRouteImport.update({
   path: '/saved',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedAppSettingsRoute =
+  AuthenticatedAppSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppGenerationsIdRoute =
   AuthenticatedAppGenerationsIdRouteImport.update({
     id: '/generations/$id',
@@ -97,8 +111,10 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/create': typeof AuthenticatedAppCreateRoute
+  '/dashboard': typeof AuthenticatedAppDashboardRoute
   '/history': typeof AuthenticatedAppHistoryRoute
   '/saved': typeof AuthenticatedAppSavedRoute
+  '/settings': typeof AuthenticatedAppSettingsRoute
   '/generations/$id': typeof AuthenticatedAppGenerationsIdRoute
   '/styles/$id': typeof AuthenticatedAppStylesIdRoute
   '/styles/new': typeof AuthenticatedAppStylesNewRoute
@@ -110,8 +126,10 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/create': typeof AuthenticatedAppCreateRoute
+  '/dashboard': typeof AuthenticatedAppDashboardRoute
   '/history': typeof AuthenticatedAppHistoryRoute
   '/saved': typeof AuthenticatedAppSavedRoute
+  '/settings': typeof AuthenticatedAppSettingsRoute
   '/generations/$id': typeof AuthenticatedAppGenerationsIdRoute
   '/styles/$id': typeof AuthenticatedAppStylesIdRoute
   '/styles/new': typeof AuthenticatedAppStylesNewRoute
@@ -126,8 +144,10 @@ export interface FileRoutesById {
   '/_authenticated/_app': typeof AuthenticatedAppRouteWithChildren
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/_app/create': typeof AuthenticatedAppCreateRoute
+  '/_authenticated/_app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/_authenticated/_app/history': typeof AuthenticatedAppHistoryRoute
   '/_authenticated/_app/saved': typeof AuthenticatedAppSavedRoute
+  '/_authenticated/_app/settings': typeof AuthenticatedAppSettingsRoute
   '/_authenticated/_app/generations/$id': typeof AuthenticatedAppGenerationsIdRoute
   '/_authenticated/_app/styles/$id': typeof AuthenticatedAppStylesIdRoute
   '/_authenticated/_app/styles/new': typeof AuthenticatedAppStylesNewRoute
@@ -141,8 +161,10 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/onboarding'
     | '/create'
+    | '/dashboard'
     | '/history'
     | '/saved'
+    | '/settings'
     | '/generations/$id'
     | '/styles/$id'
     | '/styles/new'
@@ -154,8 +176,10 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/onboarding'
     | '/create'
+    | '/dashboard'
     | '/history'
     | '/saved'
+    | '/settings'
     | '/generations/$id'
     | '/styles/$id'
     | '/styles/new'
@@ -169,8 +193,10 @@ export interface FileRouteTypes {
     | '/_authenticated/_app'
     | '/_authenticated/onboarding'
     | '/_authenticated/_app/create'
+    | '/_authenticated/_app/dashboard'
     | '/_authenticated/_app/history'
     | '/_authenticated/_app/saved'
+    | '/_authenticated/_app/settings'
     | '/_authenticated/_app/generations/$id'
     | '/_authenticated/_app/styles/$id'
     | '/_authenticated/_app/styles/new'
@@ -235,6 +261,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppCreateRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/_app/dashboard': {
+      id: '/_authenticated/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedAppDashboardRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/_app/history': {
       id: '/_authenticated/_app/history'
       path: '/history'
@@ -247,6 +280,13 @@ declare module '@tanstack/react-router' {
       path: '/saved'
       fullPath: '/saved'
       preLoaderRoute: typeof AuthenticatedAppSavedRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/_app/settings': {
+      id: '/_authenticated/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedAppSettingsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
     '/_authenticated/_app/generations/$id': {
@@ -282,8 +322,10 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAppRouteChildren {
   AuthenticatedAppCreateRoute: typeof AuthenticatedAppCreateRoute
+  AuthenticatedAppDashboardRoute: typeof AuthenticatedAppDashboardRoute
   AuthenticatedAppHistoryRoute: typeof AuthenticatedAppHistoryRoute
   AuthenticatedAppSavedRoute: typeof AuthenticatedAppSavedRoute
+  AuthenticatedAppSettingsRoute: typeof AuthenticatedAppSettingsRoute
   AuthenticatedAppGenerationsIdRoute: typeof AuthenticatedAppGenerationsIdRoute
   AuthenticatedAppStylesIdRoute: typeof AuthenticatedAppStylesIdRoute
   AuthenticatedAppStylesNewRoute: typeof AuthenticatedAppStylesNewRoute
@@ -292,8 +334,10 @@ interface AuthenticatedAppRouteChildren {
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppCreateRoute: AuthenticatedAppCreateRoute,
+  AuthenticatedAppDashboardRoute: AuthenticatedAppDashboardRoute,
   AuthenticatedAppHistoryRoute: AuthenticatedAppHistoryRoute,
   AuthenticatedAppSavedRoute: AuthenticatedAppSavedRoute,
+  AuthenticatedAppSettingsRoute: AuthenticatedAppSettingsRoute,
   AuthenticatedAppGenerationsIdRoute: AuthenticatedAppGenerationsIdRoute,
   AuthenticatedAppStylesIdRoute: AuthenticatedAppStylesIdRoute,
   AuthenticatedAppStylesNewRoute: AuthenticatedAppStylesNewRoute,

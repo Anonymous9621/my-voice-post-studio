@@ -57,7 +57,7 @@ const briefSchema = z.object({
   cta: z.string(),
 });
 
-type Errors = Partial<Record<keyof GenerationBrief | "style", string>>;
+type Errors = Partial<Record<keyof GenerationBrief | "style", string | undefined>>;
 
 const LOADING_LINES = [
   "Reading your brief…",
@@ -319,7 +319,7 @@ function Field({
   children,
 }: {
   label: string;
-  error?: string;
+  error?: string | undefined;
   hint?: string;
   htmlFor?: string;
   children: ReactNode;
@@ -334,7 +334,7 @@ function Field({
   );
 }
 
-function FieldError({ msg }: { msg?: string }) {
+function FieldError({ msg }: { msg?: string | undefined }) {
   return msg ? <p className="text-xs text-destructive">{msg}</p> : null;
 }
 

@@ -66,11 +66,11 @@ function StyleDetail() {
 
   async function rename() {
     const next = name.trim();
-    if (!next) return toast.error("Name can't be empty.");
+    if (!next) return void toast.error("Name can't be empty.");
     setBusy("rename");
     const { error } = await supabase.from("style_profiles").update({ name: next.slice(0, 80) }).eq("id", id);
     setBusy(null);
-    if (error) return toast.error(error.message);
+    if (error) return void toast.error(error.message);
     setRenaming(false);
     await refresh();
     toast.success("Renamed");
@@ -81,7 +81,7 @@ function StyleDetail() {
     await supabase.from("style_profiles").update({ is_default: false }).neq("id", id).eq("is_default", true);
     const { error } = await supabase.from("style_profiles").update({ is_default: true }).eq("id", id);
     setBusy(null);
-    if (error) return toast.error(error.message);
+    if (error) return void toast.error(error.message);
     await refresh();
     toast.success("Set as default style");
   }
@@ -90,7 +90,7 @@ function StyleDetail() {
     setBusy("delete");
     const { error } = await supabase.from("style_profiles").delete().eq("id", id);
     setBusy(null);
-    if (error) return toast.error(error.message);
+    if (error) return void toast.error(error.message);
     queryClient.removeQueries({ queryKey: ["styles", id] });
     await refresh();
     toast.success("Style deleted");
