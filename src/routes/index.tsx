@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Camera, Feather, Fingerprint, MessageCircle, Sparkles } from "lucide-react";
 
@@ -35,6 +35,22 @@ function useSignedIn() {
     return () => data.subscription.unsubscribe();
   }, []);
   return signedIn;
+}
+
+function StartButton({ signedIn, className, children }: { signedIn: boolean; className?: string; children: ReactNode }) {
+  return (
+    <Button asChild size="lg" variant="brand" className={className}>
+      {signedIn ? (
+        <Link to="/dashboard">
+          {children} <ArrowRight />
+        </Link>
+      ) : (
+        <Link to="/auth" search={{ mode: "signup" }}>
+          {children} <ArrowRight />
+        </Link>
+      )}
+    </Button>
+  );
 }
 
 function Landing() {
@@ -77,11 +93,7 @@ function Landing() {
               products — without the generic AI gloss.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
-              <Button asChild size="lg" variant="brand">
-                <Link to={signedIn ? "/dashboard" : "/auth"} search={signedIn ? undefined : { mode: "signup" }}>
-                  Find my voice <ArrowRight />
-                </Link>
-              </Button>
+              <StartButton signedIn={signedIn}>Find my voice</StartButton>
               <Button asChild size="lg" variant="outline">
                 <a href="#how">How it works</a>
               </Button>
@@ -169,11 +181,9 @@ function Landing() {
         </div>
         <div className="mt-16 flex flex-col items-center text-center">
           <h2 className="font-display text-5xl leading-none text-balance">Sound like yourself, faster.</h2>
-          <Button asChild size="lg" variant="brand" className="mt-8">
-            <Link to={signedIn ? "/dashboard" : "/auth"} search={signedIn ? undefined : { mode: "signup" }}>
-              Get started free <ArrowRight />
-            </Link>
-          </Button>
+          <StartButton signedIn={signedIn} className="mt-8">
+            Get started free
+          </StartButton>
         </div>
       </section>
 

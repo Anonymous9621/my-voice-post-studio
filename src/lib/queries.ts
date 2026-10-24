@@ -7,9 +7,14 @@ import { getAiStatus } from "./ai.functions";
 import { toAnalysis } from "./content-types";
 import { GENERATION_USAGE_KINDS, getPlan, usagePeriodStart } from "./plans";
 
-function check<T>(res: { data: T; error: { message: string } | null }): T {
+function check<T>(res: { data: T | null; error: { message: string } | null }): T | null {
   if (res.error) throw new Error(res.error.message);
   return res.data;
+}
+
+function checkList<T>(res: { data: T[] | null; error: { message: string } | null }): T[] {
+  if (res.error) throw new Error(res.error.message);
+  return res.data ?? [];
 }
 
 export const profileQuery = queryOptions({
