@@ -13,7 +13,7 @@ export const Route = createFileRoute("/_authenticated/_app")({
     }
   },
   pendingComponent: PageSkeleton,
-  errorComponent: ({ error }) => <PageError error={error} />,
+  errorComponent: ({ error }) => <PageError error={error as Error} />,
   component: () => (
     <AppShell>
       <Outlet />

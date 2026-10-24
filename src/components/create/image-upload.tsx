@@ -73,7 +73,7 @@ export function ImageUpload({
     if (!TYPES.includes(file.type)) return setError("Use a JPG, PNG or WebP image.");
     if (file.size > MAX_BYTES) return setError("Images must be 8 MB or smaller.");
     setStatus("uploading");
-    const ext = file.type.split("/")[1].replace("jpeg", "jpg");
+    const ext = (file.type.split("/")[1] ?? "jpg").replace("jpeg", "jpg");
     const path = `${userId}/${crypto.randomUUID()}.${ext}`;
     const { error: upErr } = await supabase.storage
       .from("product-images")

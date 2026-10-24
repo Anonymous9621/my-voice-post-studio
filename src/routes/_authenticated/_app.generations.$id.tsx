@@ -54,7 +54,7 @@ function GenerationPage() {
 
   async function remove() {
     const { error } = await supabase.from("generations").delete().eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) return void toast.error(error.message);
     if (gen?.image_path) await supabase.storage.from("product-images").remove([gen.image_path]);
     queryClient.removeQueries({ queryKey: ["generations", "detail", id] });
     await queryClient.invalidateQueries({ queryKey: ["generations"] });

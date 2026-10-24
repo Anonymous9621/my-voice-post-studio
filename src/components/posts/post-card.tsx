@@ -81,7 +81,7 @@ export function PostCard({
   }
 
   async function save() {
-    if (!draft.hook.trim() && !draft.caption.trim()) return toast.error("A post needs a hook or caption.");
+    if (!draft.hook.trim() && !draft.caption.trim()) return void toast.error("A post needs a hook or caption.");
     setBusy("save");
     const { error } = await supabase
       .from("posts")
@@ -93,7 +93,7 @@ export function PostCard({
       })
       .eq("id", post.id);
     setBusy(null);
-    if (error) return toast.error(error.message);
+    if (error) return void toast.error(error.message);
     setEditing(false);
     await invalidate();
     toast.success("Post updated");
@@ -103,7 +103,7 @@ export function PostCard({
     setBusy("bookmark");
     const { error } = await supabase.from("posts").update({ is_saved: !post.is_saved }).eq("id", post.id);
     setBusy(null);
-    if (error) return toast.error(error.message);
+    if (error) return void toast.error(error.message);
     await invalidate();
     toast.success(post.is_saved ? "Removed from saved" : "Saved to your library");
   }
@@ -112,7 +112,7 @@ export function PostCard({
     setBusy("delete");
     const { error } = await supabase.from("posts").delete().eq("id", post.id);
     setBusy(null);
-    if (error) return toast.error(error.message);
+    if (error) return void toast.error(error.message);
     await invalidate();
     toast.success("Post deleted");
   }
@@ -122,7 +122,7 @@ export function PostCard({
     setBusy("regen");
     try {
       const res = await regenerate({ data: { postId: post.id, instruction: extra?.trim() || null } });
-      if (!res.ok) return toast.error(res.error);
+      if (!res.ok) return void toast.error(res.error);
       setInstruction("");
       await invalidate();
       toast.success("New version ready");

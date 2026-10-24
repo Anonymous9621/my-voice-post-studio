@@ -58,7 +58,7 @@ function SettingsPage() {
       .select("*")
       .single();
     setSaving(false);
-    if (error) return toast.error(error.message);
+    if (error) return void toast.error(error.message);
     queryClient.setQueryData(profileQuery.queryKey, data);
     toast.success("Profile saved");
   }
