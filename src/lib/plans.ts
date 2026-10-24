@@ -1,6 +1,7 @@
-// Plan entitlements. Billing is not implemented yet: every account starts on
-// "free" (set by the database on sign-up). When paid billing is added, the
-// payment webhook only needs to update the user's row in `subscriptions`.
+// Plan entitlements. Every account starts on "free" (set by the database on
+// sign-up). Pro is granted only by the Stripe webhook updating the user's row in
+// `subscriptions`. `priceLabel` is display text: keep it in sync with the Stripe
+// Price referenced by STRIPE_PRICE_PRO_MONTHLY.
 
 export type PlanId = "free" | "pro";
 
@@ -33,11 +34,11 @@ export const PLANS: Record<PlanId, PlanEntitlements> = {
   pro: {
     id: "pro",
     name: "Pro",
-    priceLabel: "Coming soon",
+    priceLabel: "$15 / month",
     monthlyGenerations: 300,
     monthlyImageAnalyses: 150,
     maxStyleProfiles: 20,
-    available: false,
+    available: true,
   },
 };
 

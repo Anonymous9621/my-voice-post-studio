@@ -20,6 +20,9 @@ import { Route as AuthenticatedAppDashboardRouteImport } from './routes/_authent
 import { Route as AuthenticatedAppHistoryRouteImport } from './routes/_authenticated/_app.history'
 import { Route as AuthenticatedAppSavedRouteImport } from './routes/_authenticated/_app.saved'
 import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenticated/_app.settings'
+import { Route as ApiPublicStripeWebhookRouteImport } from './routes/api/public/stripe-webhook'
+import { Route as AuthenticatedAppBillingCancelRouteImport } from './routes/_authenticated/_app.billing.cancel'
+import { Route as AuthenticatedAppBillingSuccessRouteImport } from './routes/_authenticated/_app.billing.success'
 import { Route as AuthenticatedAppGenerationsIdRouteImport } from './routes/_authenticated/_app.generations.$id'
 import { Route as AuthenticatedAppStylesIndexRouteImport } from './routes/_authenticated/_app.styles.index'
 import { Route as AuthenticatedAppStylesIdRouteImport } from './routes/_authenticated/_app.styles.$id'
@@ -80,6 +83,23 @@ const AuthenticatedAppSettingsRoute =
     path: '/settings',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const ApiPublicStripeWebhookRoute = ApiPublicStripeWebhookRouteImport.update({
+  id: '/api/public/stripe-webhook',
+  path: '/api/public/stripe-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAppBillingCancelRoute =
+  AuthenticatedAppBillingCancelRouteImport.update({
+    id: '/billing/cancel',
+    path: '/billing/cancel',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppBillingSuccessRoute =
+  AuthenticatedAppBillingSuccessRouteImport.update({
+    id: '/billing/success',
+    path: '/billing/success',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppGenerationsIdRoute =
   AuthenticatedAppGenerationsIdRouteImport.update({
     id: '/generations/$id',
@@ -115,6 +135,9 @@ export interface FileRoutesByFullPath {
   '/history': typeof AuthenticatedAppHistoryRoute
   '/saved': typeof AuthenticatedAppSavedRoute
   '/settings': typeof AuthenticatedAppSettingsRoute
+  '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
+  '/billing/cancel': typeof AuthenticatedAppBillingCancelRoute
+  '/billing/success': typeof AuthenticatedAppBillingSuccessRoute
   '/generations/$id': typeof AuthenticatedAppGenerationsIdRoute
   '/styles/$id': typeof AuthenticatedAppStylesIdRoute
   '/styles/new': typeof AuthenticatedAppStylesNewRoute
@@ -130,6 +153,9 @@ export interface FileRoutesByTo {
   '/history': typeof AuthenticatedAppHistoryRoute
   '/saved': typeof AuthenticatedAppSavedRoute
   '/settings': typeof AuthenticatedAppSettingsRoute
+  '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
+  '/billing/cancel': typeof AuthenticatedAppBillingCancelRoute
+  '/billing/success': typeof AuthenticatedAppBillingSuccessRoute
   '/generations/$id': typeof AuthenticatedAppGenerationsIdRoute
   '/styles/$id': typeof AuthenticatedAppStylesIdRoute
   '/styles/new': typeof AuthenticatedAppStylesNewRoute
@@ -148,6 +174,9 @@ export interface FileRoutesById {
   '/_authenticated/_app/history': typeof AuthenticatedAppHistoryRoute
   '/_authenticated/_app/saved': typeof AuthenticatedAppSavedRoute
   '/_authenticated/_app/settings': typeof AuthenticatedAppSettingsRoute
+  '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
+  '/_authenticated/_app/billing/cancel': typeof AuthenticatedAppBillingCancelRoute
+  '/_authenticated/_app/billing/success': typeof AuthenticatedAppBillingSuccessRoute
   '/_authenticated/_app/generations/$id': typeof AuthenticatedAppGenerationsIdRoute
   '/_authenticated/_app/styles/$id': typeof AuthenticatedAppStylesIdRoute
   '/_authenticated/_app/styles/new': typeof AuthenticatedAppStylesNewRoute
@@ -165,6 +194,9 @@ export interface FileRouteTypes {
     | '/history'
     | '/saved'
     | '/settings'
+    | '/api/public/stripe-webhook'
+    | '/billing/cancel'
+    | '/billing/success'
     | '/generations/$id'
     | '/styles/$id'
     | '/styles/new'
@@ -180,6 +212,9 @@ export interface FileRouteTypes {
     | '/history'
     | '/saved'
     | '/settings'
+    | '/api/public/stripe-webhook'
+    | '/billing/cancel'
+    | '/billing/success'
     | '/generations/$id'
     | '/styles/$id'
     | '/styles/new'
@@ -197,6 +232,9 @@ export interface FileRouteTypes {
     | '/_authenticated/_app/history'
     | '/_authenticated/_app/saved'
     | '/_authenticated/_app/settings'
+    | '/api/public/stripe-webhook'
+    | '/_authenticated/_app/billing/cancel'
+    | '/_authenticated/_app/billing/success'
     | '/_authenticated/_app/generations/$id'
     | '/_authenticated/_app/styles/$id'
     | '/_authenticated/_app/styles/new'
@@ -208,6 +246,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  ApiPublicStripeWebhookRoute: typeof ApiPublicStripeWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -289,6 +328,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppSettingsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/api/public/stripe-webhook': {
+      id: '/api/public/stripe-webhook'
+      path: '/api/public/stripe-webhook'
+      fullPath: '/api/public/stripe-webhook'
+      preLoaderRoute: typeof ApiPublicStripeWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/_app/billing/cancel': {
+      id: '/_authenticated/_app/billing/cancel'
+      path: '/billing/cancel'
+      fullPath: '/billing/cancel'
+      preLoaderRoute: typeof AuthenticatedAppBillingCancelRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/_app/billing/success': {
+      id: '/_authenticated/_app/billing/success'
+      path: '/billing/success'
+      fullPath: '/billing/success'
+      preLoaderRoute: typeof AuthenticatedAppBillingSuccessRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/_app/generations/$id': {
       id: '/_authenticated/_app/generations/$id'
       path: '/generations/$id'
@@ -326,6 +386,8 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppHistoryRoute: typeof AuthenticatedAppHistoryRoute
   AuthenticatedAppSavedRoute: typeof AuthenticatedAppSavedRoute
   AuthenticatedAppSettingsRoute: typeof AuthenticatedAppSettingsRoute
+  AuthenticatedAppBillingCancelRoute: typeof AuthenticatedAppBillingCancelRoute
+  AuthenticatedAppBillingSuccessRoute: typeof AuthenticatedAppBillingSuccessRoute
   AuthenticatedAppGenerationsIdRoute: typeof AuthenticatedAppGenerationsIdRoute
   AuthenticatedAppStylesIdRoute: typeof AuthenticatedAppStylesIdRoute
   AuthenticatedAppStylesNewRoute: typeof AuthenticatedAppStylesNewRoute
@@ -338,6 +400,8 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppHistoryRoute: AuthenticatedAppHistoryRoute,
   AuthenticatedAppSavedRoute: AuthenticatedAppSavedRoute,
   AuthenticatedAppSettingsRoute: AuthenticatedAppSettingsRoute,
+  AuthenticatedAppBillingCancelRoute: AuthenticatedAppBillingCancelRoute,
+  AuthenticatedAppBillingSuccessRoute: AuthenticatedAppBillingSuccessRoute,
   AuthenticatedAppGenerationsIdRoute: AuthenticatedAppGenerationsIdRoute,
   AuthenticatedAppStylesIdRoute: AuthenticatedAppStylesIdRoute,
   AuthenticatedAppStylesNewRoute: AuthenticatedAppStylesNewRoute,
@@ -365,6 +429,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  ApiPublicStripeWebhookRoute: ApiPublicStripeWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

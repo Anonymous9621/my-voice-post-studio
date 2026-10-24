@@ -12,6 +12,11 @@ All secrets are server-side only. Nothing secret is shipped to the browser.
 | `AI_GATEWAY_URL` | No | Server | Overrides the AI gateway base URL. |
 | `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` | Yes | Browser | Public keys, managed automatically by Lovable Cloud. |
 | `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` | Yes | Server | Managed automatically by Lovable Cloud. |
+| `STRIPE_SECRET_KEY` | For billing | Server | `sk_test_...` / `sk_live_...`. Never use a `VITE_` prefix. |
+| `STRIPE_PRICE_PRO_MONTHLY` | For billing | Server | Price ID (`price_...`) of the Pro monthly Stripe Price ($15/month). |
+| `STRIPE_WEBHOOK_SECRET` | For billing | Server | `whsec_...` for the endpoint `https://<your-domain>/api/public/stripe-webhook`. |
+| `APP_URL` | Recommended | Server | Public origin for Stripe return URLs, e.g. `https://yourapp.lovable.app`. |
+| `STRIPE_AUTOMATIC_TAX` | No | Server | Set to `true` to enable Stripe Tax on Checkout. |
 
 ## What is stored where
 
@@ -39,7 +44,13 @@ Click **Publish** in Lovable. Database, storage and auth are already live in Lov
 For Google sign-in with your own branding, add your own Google OAuth credentials in
 Cloud → Users → Auth settings.
 
-## Adding paid billing later
+## Billing (Stripe Pro, implemented)
+
+See `docs/PRO_SUBSCRIPTION_HANDOFF.md`. Webhook events to enable: `checkout.session.completed`,
+`customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`.
+Enable the Customer Portal in Stripe Dashboard → Settings → Billing → Customer portal.
+
+## Original billing notes
 
 1. Add a payment provider and a webhook route under `src/routes/api/public/`.
 2. In the webhook, verify the signature, then update the user's `subscriptions` row
