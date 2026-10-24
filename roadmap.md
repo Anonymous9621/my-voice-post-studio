@@ -9,5 +9,5 @@
 - [x] Dashboard, history, saved posts, settings, usage limits (Free/Pro ready)
 
 ## Open
-- [ ] Paid billing for Pro — not requested yet
+- [ ] Paid Pro subscription (Stripe checkout, webhook updates plan, manage/cancel) — waiting on payment setup choice and Pro price
 - [ ] Interface translations (e.g. Thai UI) — content already supports many languages
