@@ -31,7 +31,7 @@ export const aiStatusQuery = queryOptions({
 export const stylesQuery = queryOptions({
   queryKey: ["styles"],
   queryFn: async () => {
-    const rows = check(
+    const rows = checkList(
       await supabase
         .from("style_profiles")
         .select("id,name,analysis,language,is_default,created_at,updated_at")
@@ -55,7 +55,7 @@ export const generationsQuery = (limit = 50) =>
   queryOptions({
     queryKey: ["generations", { limit }],
     queryFn: async () =>
-      check(
+      checkList(
         await supabase
           .from("generations")
           .select("id,title,mode,created_at,style_profiles(name),posts(count)")
@@ -72,7 +72,7 @@ export const generationQuery = (id: string) =>
         await supabase.from("generations").select("*, style_profiles(id,name)").eq("id", id).maybeSingle(),
       );
       if (!gen) return null;
-      const posts = check(
+      const posts = checkList(
         await supabase.from("posts").select("*").eq("generation_id", id).order("position"),
       );
       let imageUrl: string | null = null;
@@ -89,7 +89,7 @@ export const generationQuery = (id: string) =>
 export const savedPostsQuery = queryOptions({
   queryKey: ["posts", "saved"],
   queryFn: async () =>
-    check(
+    checkList(
       await supabase
         .from("posts")
         .select("*, generations(id,title,mode)")
