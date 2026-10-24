@@ -7,14 +7,16 @@ import { getAiStatus } from "./ai.functions";
 import { toAnalysis } from "./content-types";
 import { GENERATION_USAGE_KINDS, getPlan, usagePeriodStart } from "./plans";
 
-function check<T>(res: { data: T | null; error: { message: string } | null }): T | null {
+type Res = { data: unknown; error: { message: string } | null };
+
+function check<R extends Res>(res: R): R["data"] {
   if (res.error) throw new Error(res.error.message);
   return res.data;
 }
 
-function checkList<T>(res: { data: T[] | null; error: { message: string } | null }): T[] {
+function checkList<R extends Res>(res: R): NonNullable<R["data"]> {
   if (res.error) throw new Error(res.error.message);
-  return res.data ?? [];
+  return (res.data ?? []) as NonNullable<R["data"]>;
 }
 
 export const profileQuery = queryOptions({

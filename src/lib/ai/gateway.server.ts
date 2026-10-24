@@ -121,7 +121,7 @@ export async function generateStructured<T>(opts: {
     instructions: opts.instructions,
     messages: opts.messages,
     output: Output.object({ schema: opts.schema }),
-    abortSignal: opts.abortSignal,
+    ...(opts.abortSignal ? { abortSignal: opts.abortSignal } : {}),
     onError: ({ error }) => {
       streamError = error;
     },
