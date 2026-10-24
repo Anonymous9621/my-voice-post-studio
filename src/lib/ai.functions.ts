@@ -126,7 +126,7 @@ export const analyzeStyle = createServerFn({ method: "POST" })
         name: data.name,
         sample_posts: data.samples,
         analysis: analysis as unknown as Json,
-        language: analysis.detected_language || null,
+        language: analysis.detected_language.replace(/\.$/, "") || null,
       };
 
       let id = data.styleId;
