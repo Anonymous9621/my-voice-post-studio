@@ -27,7 +27,9 @@ function insightsToNotes(i: ImageInsights) {
   const lines = [
     i.product_type && `Product: ${i.product_type}`,
     i.summary,
-    i.visible_details.length ? `Visible: ${i.visible_details.join("; ")}` : "",
+    i.visible_details.length
+      ? `Visible:\n${i.visible_details.map((d) => `- ${d.replace(/\.$/, "")}`).join("\n")}`
+      : "",
     i.visible_text.length ? `Text on product: ${i.visible_text.join(" / ")}` : "",
   ];
   return lines.filter(Boolean).join("\n");
