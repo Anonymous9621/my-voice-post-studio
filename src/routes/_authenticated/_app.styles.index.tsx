@@ -9,6 +9,7 @@ import { hasAnalysis } from "@/lib/content-types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ConfigNotice } from "@/components/app/config-notice";
+import { UpgradeButton } from "@/components/billing/billing-buttons";
 import { EmptyState, PageContainer, PageHeader } from "@/components/app/page";
 
 export const Route = createFileRoute("/_authenticated/_app/styles/")({
@@ -48,10 +49,13 @@ function StylesPage() {
       />
       <ConfigNotice className="mb-6" />
       {atLimit && (
-        <p className="mb-6 rounded-lg bg-secondary px-4 py-3 text-sm text-muted-foreground">
-          You're using {styles.length} of {usage.plan.maxStyleProfiles} writing styles on the {usage.plan.name} plan.
-          Delete one to add another.
-        </p>
+        <div className="mb-6 flex flex-col gap-3 rounded-lg bg-secondary px-4 py-3 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <p>
+            You're using {styles.length} of {usage.plan.maxStyleProfiles} writing styles on the {usage.plan.name}{" "}
+            plan. Delete one to add another{usage.plan.id === "free" ? ", or upgrade for more." : "."}
+          </p>
+          {usage.plan.id === "free" && <UpgradeButton size="sm" />}
+        </div>
       )}
 
       {styles.length === 0 ? (

@@ -105,7 +105,10 @@ export const usageQuery = queryOptions({
   queryFn: async () => {
     const since = usagePeriodStart().toISOString();
     const [sub, gens, images, styles, saved] = await Promise.all([
-      supabase.from("subscriptions").select("plan,status").maybeSingle(),
+      supabase
+        .from("subscriptions")
+        .select("plan,status,current_period_end,provider_customer_id")
+        .maybeSingle(),
       supabase
         .from("usage_events")
         .select("id", { count: "exact", head: true })
@@ -122,6 +125,9 @@ export const usageQuery = queryOptions({
     const plan = getPlan(sub.data?.plan, sub.data?.status);
     return {
       plan,
+      subscriptionStatus: sub.data?.status ?? null,
+      periodEnd: sub.data?.current_period_end ?? null,
+      hasBillingAccount: !!sub.data?.provider_customer_id,
       generationsUsed: gens.count ?? 0,
       imageAnalysesUsed: images.count ?? 0,
       styleCount: styles.count ?? 0,

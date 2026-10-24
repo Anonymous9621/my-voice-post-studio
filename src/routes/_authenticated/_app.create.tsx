@@ -15,6 +15,7 @@ import {
   type WritingMode,
 } from "@/lib/content-options";
 import type { GenerationBrief } from "@/lib/content-types";
+import { PLANS } from "@/lib/plans";
 import { pageMeta } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ConfigNotice, useAiConfigured } from "@/components/app/config-notice";
+import { UpgradeButton } from "@/components/billing/billing-buttons";
 import { PageContainer, PageHeader } from "@/components/app/page";
 import { EMPTY_IMAGE, ImageUpload, type ImageState } from "@/components/create/image-upload";
 
@@ -175,6 +177,16 @@ function CreatePage() {
         description="Tell us about the product. We'll draft three different posts you can edit."
       />
       <ConfigNotice className="mb-6" />
+
+      {outOfGenerations && usage.plan.id === "free" && (
+        <div className="mb-6 flex flex-col gap-3 rounded-xl border border-brand/40 bg-secondary p-4 text-sm sm:flex-row sm:items-center sm:justify-between">
+          <p>
+            You've used all {usage.plan.monthlyGenerations} generations this month. Upgrade to Pro for{" "}
+            {PLANS.pro.monthlyGenerations}.
+          </p>
+          <UpgradeButton size="sm" />
+        </div>
+      )}
 
       {questions.length > 0 && (
         <div className="mb-6 rounded-xl border border-warning/40 bg-warning-soft p-4 text-sm text-warning-foreground">

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { Check, Loader2, LogOut } from "lucide-react";
+import { format } from "date-fns";
 import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
@@ -17,6 +18,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useSignOut } from "@/components/app/app-shell";
 import { useAiConfigured } from "@/components/app/config-notice";
+import { ManageSubscriptionButton, UpgradeButton } from "@/components/billing/billing-buttons";
 import { PageContainer, PageHeader } from "@/components/app/page";
 import { UsageBar } from "@/components/app/usage-meter";
 
@@ -124,6 +126,38 @@ function SettingsPage() {
           <UsageBar label="Generations" used={usage.generationsUsed} limit={usage.plan.monthlyGenerations} />
           <UsageBar label="Photo analyses" used={usage.imageAnalysesUsed} limit={usage.plan.monthlyImageAnalyses} />
           <UsageBar label="Writing styles" used={usage.styleCount} limit={usage.plan.maxStyleProfiles} />
+        </div>
+        <div className="mt-6 flex flex-col gap-3 rounded-xl bg-secondary p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="text-sm">
+            {usage.plan.id === "pro" ? (
+              <>
+                <p className="font-medium">Pro subscription</p>
+                {usage.periodEnd && (
+                  <p className="text-muted-foreground">
+                    Current period ends {format(new Date(usage.periodEnd), "MMM d, yyyy")}
+                  </p>
+                )}
+              </>
+            ) : usage.subscriptionStatus === "past_due" ? (
+              <>
+                <p className="font-medium">Payment failed</p>
+                <p className="text-muted-foreground">Update your card to restore Pro limits.</p>
+              </>
+            ) : (
+              <>
+                <p className="font-medium">You're on the Free plan</p>
+                <p className="text-muted-foreground">
+                  Upgrade for {PLANS.pro.monthlyGenerations} generations, {PLANS.pro.monthlyImageAnalyses} photo
+                  analyses and {PLANS.pro.maxStyleProfiles} styles — {PLANS.pro.priceLabel}.
+                </p>
+              </>
+            )}
+          </div>
+          {usage.plan.id === "pro" || (usage.subscriptionStatus === "past_due" && usage.hasBillingAccount) ? (
+            <ManageSubscriptionButton />
+          ) : (
+            <UpgradeButton />
+          )}
         </div>
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
           {Object.values(PLANS).map((p) => {
